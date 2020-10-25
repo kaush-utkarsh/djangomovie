@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block customtitle %}{{action}} a Country{% endblock %}
+{% block contentbody %}
+<h1 class="h3 mb-4 text-gray-800">{{action}} a Country</h1>
+{% if msg %}
+<div class="alert alert-success" role="alert">
+  {{msg}}
+</div>
+{% endif %}
+<div class="row">
+	<form method="POST">
+		{% csrf_token %}
+		<input type = "hidden" id = "countryid" name="countryid" value="{% if country %}{{country.id}}{% endif %}">
+	 	<input type = "hidden" id = "countryformtype" name="countryformtype" value="addeditform">
+	  <div class="form-group">
+	    <label>Enter Country Name</label>
+	    <input type="name" class="form-control" id="countryname" name="countryname" {% if country %}value = "{{country.countryname}}"{% endif %} required>
+	  </div>
+	  <button type="submit" class="btn btn-success">Submit</button>
+	</form>
+</div>
+
+<hr>
+
+<h1 class="h3 mb-4 text-gray-800">Select a Country to view and Edit</h1>
+<div class="row">
+	<form method="POST">
+		{% csrf_token %}
+	 	<input type = "hidden" id = "countryformtype" name="countryformtype" value="selectform">
+
+		<div class="form-group">
+	    <select class="form-control" id="countryid" name="countryid" required>
+	      
+	    	{% for countryobj in countrylist %}
+	      		<option value="{{countryobj.id}}">{{countryobj.countryname}}</option>
+	    	{% endfor %}
+
+
+	    </select>
+	  </div>
+	  <button type="submit" class="btn btn-success">Submit</button>
+	</form>
+</div>
+
+
+{% endblock %}

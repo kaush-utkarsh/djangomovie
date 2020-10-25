@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block customtitle %}{{action}} a Moview{% endblock %}
+{% block contentbody %}
+          <h1 class="h3 mb-4 text-gray-800">{{action}} a Movie</h1>
+{% if msg %}
+<div class="alert alert-success" role="alert">
+  {{msg}}
+</div>
+{% endif %}
+
+<div class="row">
+	<form action = "/addMovie/" method="POST">
+		{% csrf_token %}
+		<input type = "hidden" id = "movieid" name="movieid" value="{% if movie %}{{movie.id}}{% endif %}">
+	  <div class="form-group">
+	    <label for="exampleFormControlInput1">Enter Movie Name</label>
+	    <input type="name" class="form-control" id="moviename" name="moviename" value="{% if movie %}{{movie.moviename}}{% endif %}" required>
+	  </div>
+	  <div class="form-group">
+	    <label for="exampleFormControlSelect1">Country Name</label>
+	    <select class="form-control" id="countryid" name="countryid" required>
+	      
+	    	{% for countryobj in countrylist %}
+	      		<option value="{{countryobj.id}}" {% if movie.countryid.id == countryobj.id %}selected{% endif %}>{{countryobj.countryname}}</option>
+	    	{% endfor %}
+
+	    </select>
+	  </div>
+	  <div class="form-group">
+	    <label for="exampleFormControlTextarea1">Description</label>
+	    <textarea class="form-control" id="desc" name = "desc" rows="3" required>{% if movie %}{{movie.description}}{% endif %}</textarea>
+	  </div>
+	  <button type="submit" class="btn btn-success">Submit</button>
+	</form>
+</div>
+
+{% endblock %}
